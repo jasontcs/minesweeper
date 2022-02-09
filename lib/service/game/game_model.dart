@@ -25,7 +25,9 @@ enum MineBoxStatus {
   open,
   close,
   flag,
+  wrongFlag,
   burst,
+  otherBurst,
 }
 
 class MineBox with EquatableMixin {

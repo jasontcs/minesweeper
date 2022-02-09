@@ -5,7 +5,7 @@ import 'package:minesweeper/util/singleton.dart';
 class TimerService {
   static TimerService instance = AppSingleton.instance<TimerService>();
 
-  final StreamController<int> _controller = StreamController<int>();
+  final StreamController<int> _controller = StreamController<int>.broadcast();
   Timer? _timer;
   int _second = 0;
 

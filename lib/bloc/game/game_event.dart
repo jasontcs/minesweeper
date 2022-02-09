@@ -16,9 +16,14 @@ class GameStarted extends GameEvent {
 
 class GameResetted extends GameEvent {}
 
-class GameBoxUpdated extends GameEvent {
-  final MineBoxStatus status;
+class GameBoxOpen extends GameEvent {
   final MineBoxPosition position;
 
-  GameBoxUpdated({required this.status, required this.position});
+  GameBoxOpen({required this.position});
+}
+
+class GameBoxFlag extends GameEvent {
+  final MineBoxPosition position;
+
+  GameBoxFlag({required this.position});
 }
