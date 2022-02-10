@@ -1,6 +1,9 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+export 'game_event.dart';
+export 'game_state.dart';
+export 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:minesweeper/bloc/timer/timer_bloc.dart';
-import 'package:minesweeper/bloc/timer/timer_event.dart';
+import 'package:minesweeper/model/game_model.dart';
 import 'package:minesweeper/service/game/game_service.dart';
 
 import 'game_event.dart';
@@ -23,8 +26,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         width: _gameService.game!.width,
         height: _gameService.game!.height,
       ));
+      timerBloc.add(TimerStopped());
       timerBloc.add(TimerResetted());
-      timerBloc.add(TimerStarted());
     });
     on<GameResetted>((event, emit) {
       _gameService.game = MineSweeperGame.init(
@@ -38,11 +41,13 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         width: _gameService.game!.width,
         height: _gameService.game!.height,
       ));
+      timerBloc.add(TimerStopped());
       timerBloc.add(TimerResetted());
     });
     on<GameBoxOpen>((event, emit) {
       MineSweeperGame? game = _gameService.game;
       if (game != null && state is! GameEnd) {
+        timerBloc.add(TimerStarted());
         game.openBox(event.position);
         emit(GamePlaying(
           boxes: game.boxes,
@@ -50,7 +55,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           width: game.width,
           height: game.height,
         ));
-        if (game.success == true) {
+        if (game.status == MineSweeperGameStatus.win) {
           emit(GameWin(
             boxes: game.boxes,
             flagLeft: game.flagLeft,
@@ -59,7 +64,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           ));
           timerBloc.add(TimerStopped());
         }
-        if (game.success == false) {
+        if (game.status == MineSweeperGameStatus.lose) {
           emit(GameLose(
             boxes: game.boxes,
             flagLeft: game.flagLeft,
@@ -74,6 +79,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<GameBoxFlag>((event, emit) {
       MineSweeperGame? game = _gameService.game;
       if (game != null && state is! GameEnd) {
+        timerBloc.add(TimerStarted());
         game.toggleFlag(event.position);
         emit(
           GamePlaying(

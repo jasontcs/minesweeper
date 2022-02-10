@@ -1,6 +1,5 @@
+import 'package:minesweeper/model/game_model.dart';
 import 'package:minesweeper/util/singleton.dart';
-
-import 'game_model.dart';
 
 class GameService {
   static GameService instance = AppSingleton.instance<GameService>();
@@ -19,8 +18,11 @@ class MineSweeperGame {
   late final List<MineBox> boxes;
   late final List<int> _mines;
 
-  bool? _success;
-  bool? get success => _success;
+  // bool? _success;
+  // bool? get success => _success;
+
+  MineSweeperGameStatus _status;
+  MineSweeperGameStatus get status => _status;
 
   int get flagCount =>
       boxes.where((box) => box.status == MineBoxStatus.flag).length;
@@ -64,6 +66,7 @@ class MineSweeperGame {
         assert(height > 0),
         assert(mine > 0),
         assert(mine < width * height),
+        _status = MineSweeperGameStatus.ready,
         _boundary = MineBoxPosition(width, height) {
     _mines = MineSweeperGameUtil.random(width * height, mine);
     boxes = List.generate(
@@ -91,6 +94,9 @@ class MineSweeperGame {
   void toggleFlag(MineBoxPosition position) {
     MineBox? box = mineBox(position);
     if (box != null) {
+      if (_status == MineSweeperGameStatus.ready) {
+        _status = MineSweeperGameStatus.playing;
+      }
       if (box.status == MineBoxStatus.close) {
         box.status = MineBoxStatus.flag;
       } else if (box.status == MineBoxStatus.flag) {
@@ -99,59 +105,62 @@ class MineSweeperGame {
     }
   }
 
-  void openBox(MineBoxPosition position) {
+  void openBox(
+    MineBoxPosition position, {
+    bool byNeighbour = false,
+  }) {
     MineBox? box = mineBox(position);
-    if (box != null && box.status == MineBoxStatus.close) {
+    if (box != null &&
+        (box.status == MineBoxStatus.close ||
+            byNeighbour && box.status == MineBoxStatus.flag)) {
+      if (_status == MineSweeperGameStatus.ready) {
+        _status = MineSweeperGameStatus.playing;
+      }
       if (box.isMine) {
         box.status = MineBoxStatus.burst;
-        _burstOther();
-        _checkFlag();
-        _success = false;
+        _status = MineSweeperGameStatus.lose;
       } else {
         box.status = MineBoxStatus.open;
 
         _openZeroNeighbour(box);
         if (boxes.where((box) => box.status == MineBoxStatus.open).length ==
             boxes.length - _mines.length) {
-          _success = true;
+          _status = MineSweeperGameStatus.win;
         }
       }
+      _completeOther();
     }
   }
 
   void _openZeroNeighbour(MineBox box) {
     if (!box.isMine) {
-      List<MineBoxRelativePosition> positionToBeCheckAndOpen = [
-        MineBoxRelativePosition.top,
-        MineBoxRelativePosition.bottom,
-        MineBoxRelativePosition.left,
-        MineBoxRelativePosition.right,
-      ];
       for (MineBoxRelativePosition relativePosition
-          in positionToBeCheckAndOpen) {
+          in MineBoxRelativePosition.values) {
         MineBoxPosition neighbourPosition =
             MineSweeperGameUtil.neighbourPosition(
                 box.position, relativePosition);
         if (box.number == 0 ||
             mineBox(neighbourPosition)?.number == 0 &&
                 mineBox(neighbourPosition)?.isMine == false) {
-          openBox(neighbourPosition);
+          openBox(neighbourPosition, byNeighbour: true);
         }
       }
     }
   }
 
-  void _burstOther() {
+  void _completeOther() {
     for (MineBox box in boxes) {
       if (box.isMine && box.status == MineBoxStatus.close) {
-        box.status = MineBoxStatus.otherBurst;
+        if (_status == MineSweeperGameStatus.win) {
+          box.status = MineBoxStatus.flag;
+        }
+        if (_status == MineSweeperGameStatus.lose) {
+          box.status = MineBoxStatus.otherBurst;
+        }
       }
-    }
-  }
-
-  void _checkFlag() {
-    for (MineBox box in boxes) {
-      if (!box.isMine && box.status == MineBoxStatus.flag) {
+      if (!box.isMine &&
+          box.status == MineBoxStatus.flag &&
+          _status == MineSweeperGameStatus.lose) {
         box.status = MineBoxStatus.wrongFlag;
       }
     }

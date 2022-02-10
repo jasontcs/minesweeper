@@ -10,7 +10,7 @@ class TimerService {
   int _second = 0;
 
   void start() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer ??= Timer.periodic(const Duration(seconds: 1), (timer) {
       _second++;
       _controller.add(_second);
     });

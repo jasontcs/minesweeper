@@ -1,4 +1,4 @@
-import 'package:minesweeper/service/game/game_model.dart';
+import 'package:minesweeper/model/game_model.dart';
 
 abstract class GameState {}
 

@@ -1,3 +1,7 @@
+export 'package:flutter_bloc/flutter_bloc.dart';
+export 'timer_event.dart';
+export 'timer_state.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minesweeper/service/timer/timer_service.dart';
 
@@ -18,7 +22,6 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     });
     on<TimerStarted>((event, emit) async {
       _timerService.start();
-      _timerService.time.listen((second) {});
     });
     on<TimerStopped>((event, emit) {
       _timerService.stop();

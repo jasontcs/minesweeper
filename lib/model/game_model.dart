@@ -1,13 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-class MineBoxPosition extends Equatable {
+class MineBoxPosition {
   final int x;
   final int y;
 
   const MineBoxPosition(this.x, this.y);
-
-  @override
-  List<Object?> get props => [x, y];
 }
 
 enum MineBoxRelativePosition {
@@ -30,7 +27,14 @@ enum MineBoxStatus {
   otherBurst,
 }
 
-class MineBox with EquatableMixin {
+enum MineSweeperGameStatus {
+  ready,
+  playing,
+  win,
+  lose,
+}
+
+class MineBox {
   final MineBoxPosition position;
   final bool isMine;
   late final int number;
@@ -40,7 +44,19 @@ class MineBox with EquatableMixin {
     required this.position,
     required this.isMine,
   });
+}
+
+class MineBoxGameConfig extends Equatable {
+  final int width;
+  final int height;
+  final int mine;
+
+  const MineBoxGameConfig({
+    required this.width,
+    required this.height,
+    required this.mine,
+  });
 
   @override
-  List<Object?> get props => [position, isMine, number, status];
+  List<Object?> get props => [width, height, mine];
 }

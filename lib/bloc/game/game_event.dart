@@ -1,17 +1,17 @@
-import 'package:minesweeper/service/game/game_model.dart';
+import 'package:minesweeper/model/game_model.dart';
 
 abstract class GameEvent {}
 
-class GameStarted extends GameEvent {
-  final int width;
-  final int height;
-  final int mine;
-
-  GameStarted({
-    required this.width,
-    required this.height,
-    required this.mine,
-  });
+class GameStarted extends MineBoxGameConfig implements GameEvent {
+  const GameStarted({
+    required int width,
+    required int height,
+    required int mine,
+  }) : super(
+          width: width,
+          height: height,
+          mine: mine,
+        );
 }
 
 class GameResetted extends GameEvent {}
