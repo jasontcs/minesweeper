@@ -4,24 +4,52 @@ import 'package:minesweeper/model/game_model.dart';
 
 class Difficulty extends MineBoxGameConfig {
   final String label;
-
-  const Difficulty.beginner()
-      : label = 'Beginner (9x9)',
-        super(height: 9, width: 9, mine: 10);
-  const Difficulty.intermediate()
-      : label = 'Intermediate (16x16)',
-        super(height: 16, width: 16, mine: 40);
-  const Difficulty.expert()
-      : label = 'Expert (30x9)',
-        super(height: 16, width: 30, mine: 99);
-  const Difficulty.custom({
+  const Difficulty({
+    required this.label,
     required int width,
     required int height,
     required int mine,
-  })  : label = 'Custom',
-        super(height: height, width: width, mine: mine);
+  }) : super(
+          height: height,
+          width: width,
+          mine: mine,
+        );
   @override
   List<Object?> get props => super.props..add(label);
+}
+
+class DifficultyConfig {
+  static Difficulty beginner = const Difficulty(
+    label: 'Beginner (9x9)',
+    width: 9,
+    height: 9,
+    mine: 10,
+  );
+  static Difficulty intermediate = const Difficulty(
+    label: 'Intermediate (16x16)',
+    width: 16,
+    height: 16,
+    mine: 40,
+  );
+  static Difficulty expert = const Difficulty(
+    label: 'Expert (30x96)',
+    width: 30,
+    height: 16,
+    mine: 99,
+  );
+  static Difficulty custom = const Difficulty(
+    label: 'Custom',
+    width: 9,
+    height: 9,
+    mine: 10,
+  );
+
+  static List<Difficulty> data = [
+    beginner,
+    intermediate,
+    expert,
+    custom,
+  ];
 }
 
 class DifficultyChips extends StatefulWidget {
@@ -32,18 +60,8 @@ class DifficultyChips extends StatefulWidget {
 }
 
 class _DifficultyChipsState extends State<DifficultyChips> {
-  MineBoxGameConfig customConfig = const Difficulty.beginner();
-  late List<Difficulty> choices = [
-    const Difficulty.beginner(),
-    const Difficulty.intermediate(),
-    const Difficulty.expert(),
-    Difficulty.custom(
-      width: customConfig.width,
-      height: customConfig.height,
-      mine: customConfig.mine,
-    ),
-  ];
-  Difficulty difficulty = const Difficulty.beginner();
+  MineBoxGameConfig customConfig = DifficultyConfig.beginner;
+  Difficulty difficulty = DifficultyConfig.beginner;
 
   void _startGame(Difficulty difficulty) {
     context.read<GameBloc>().add(GameStarted(
@@ -60,24 +78,40 @@ class _DifficultyChipsState extends State<DifficultyChips> {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: choices
-          .map((choice) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ChoiceChip(
-                  label: Text(choice.label),
-                  selected: difficulty == choice,
-                  onSelected: (selected) {
-                    if (selected) {
-                      setState(() {
-                        difficulty = choice;
-                      });
-                      _startGame(difficulty);
-                    }
-                  },
-                ),
-              ))
-          .toList(),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Wrap(
+          children: DifficultyConfig.data
+              .map((choice) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ChoiceChip(
+                      label: Text(choice.label),
+                      selected: difficulty == choice,
+                      onSelected: (selected) {
+                        if (selected) {
+                          setState(() {
+                            difficulty = choice;
+                          });
+                          if (choice != DifficultyConfig.custom) {
+                            _startGame(difficulty);
+                          }
+                        }
+                      },
+                    ),
+                  ))
+              .toList(),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(width: 20, child: TextFormField()),
+            SizedBox(width: 20, child: TextFormField()),
+            SizedBox(width: 20, child: TextFormField()),
+            OutlinedButton(onPressed: () {}, child: Text('Update'))
+          ],
+        ),
+      ],
     );
   }
 }
