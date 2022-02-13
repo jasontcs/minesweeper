@@ -8,11 +8,9 @@ class GameStopwatch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TimerBloc, TimerState>(
-      builder: (context, state) => Center(
-        child: Text(
-          state.second?.toString() ?? '-',
-          style: Theme.of(context).textTheme.headline3,
-        ),
+      builder: (context, state) => Text(
+        state.second?.toString() ?? '-',
+        style: Theme.of(context).textTheme.headline3,
       ),
     );
   }

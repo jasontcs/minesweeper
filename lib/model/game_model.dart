@@ -46,7 +46,7 @@ class MineBox {
   });
 }
 
-class MineBoxGameConfig extends Equatable {
+class MineBoxGameConfig with EquatableMixin {
   final int width;
   final int height;
   final int mine;

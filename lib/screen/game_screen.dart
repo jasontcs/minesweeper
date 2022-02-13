@@ -17,18 +17,16 @@ class GameScreen extends StatelessWidget {
           child: IntrinsicWidth(
             child: Column(
               children: [
-                Stack(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        FlagCountDown(),
-                        GameStopwatch(),
-                      ],
-                    ),
-                    const Align(
-                      child: GameButton(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Expanded(child: FlagCountDown()),
+                    GameButton(),
+                    Expanded(
+                      child: Align(
+                          alignment: Alignment.centerRight,
+                          child: GameStopwatch()),
                     ),
                   ],
                 ),
