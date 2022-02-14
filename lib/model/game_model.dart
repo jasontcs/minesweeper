@@ -57,6 +57,19 @@ class MineBoxGameConfig with EquatableMixin {
     required this.mine,
   });
 
+  MineBoxGameConfig copyWith({
+    int? width,
+    int? height,
+    int? mine,
+  }) =>
+      MineBoxGameConfig(
+        width: width ?? this.width,
+        height: height ?? this.height,
+        mine: mine ?? this.mine,
+      );
+
+  bool get isValid => width * height > mine;
+
   @override
   List<Object?> get props => [width, height, mine];
 }

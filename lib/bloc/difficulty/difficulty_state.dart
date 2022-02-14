@@ -2,7 +2,6 @@ import 'package:minesweeper/model/difficulty_model.dart';
 
 abstract class DifficultyState {
   final Difficulty difficulty;
-
   DifficultyState(this.difficulty);
 }
 

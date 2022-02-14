@@ -12,6 +12,11 @@ class GameStarted extends MineBoxGameConfig implements GameEvent {
           height: height,
           mine: mine,
         );
+  static GameStarted withConfig(MineBoxGameConfig config) => GameStarted(
+        width: config.width,
+        height: config.height,
+        mine: config.mine,
+      );
 }
 
 class GameResetted extends GameEvent {}

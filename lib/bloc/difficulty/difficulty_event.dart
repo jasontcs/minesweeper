@@ -1,20 +1,16 @@
-import 'package:equatable/equatable.dart';
+import 'package:minesweeper/bloc/difficulty/difficulty_bloc.dart';
 import 'package:minesweeper/model/difficulty_model.dart';
+import 'package:minesweeper/model/game_model.dart';
 
 abstract class DifficultyEvent {}
 
-abstract class DifficultySetted extends DifficultyEvent {}
+class DifficultyOptionPressed extends DifficultyEvent {
+  final DifficultyOption option;
 
-class DifficultyBeginnerPressed extends DifficultySetted {}
+  DifficultyOptionPressed({required this.option});
+}
 
-class DifficultyIntermediatePressed extends DifficultySetted {}
-
-class DifficultyExpertPressed extends DifficultySetted {}
-
-class DifficultyCustomPressed extends DifficultyEvent {}
-
-class DifficultyCustomEntered extends DifficultySetted {
-  final Difficulty difficulty;
-
-  DifficultyCustomEntered({required this.difficulty});
+class DifficultyCustomEntered extends DifficultyEvent {
+  final MineBoxGameConfig config;
+  DifficultyCustomEntered({required this.config});
 }

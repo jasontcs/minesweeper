@@ -4,22 +4,18 @@ export 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:minesweeper/bloc/game/game_bloc.dart';
 import 'package:minesweeper/model/difficulty_model.dart';
+import 'package:minesweeper/model/game_model.dart';
 
 import 'difficulty_event.dart';
 import 'difficulty_state.dart';
 
 class DifficultyBloc extends Bloc<DifficultyEvent, DifficultyState> {
   final GameBloc gameBloc;
-
-  static List<Difficulty> options = [
-    const Difficulty.beginner(),
-    const Difficulty.intermediate(),
-    const Difficulty.expert(),
-    const Difficulty.custom(),
-  ];
+  MineBoxGameConfig _customConfig = Difficulty.custom();
 
   DifficultyBloc({required this.gameBloc})
       : super(DifficultyUpdated(const Difficulty.beginner())) {
+    gameBloc.add(GameStarted.withConfig(state.difficulty));
     void _gameStarted(Difficulty difficulty) {
       gameBloc.add(GameStarted(
           width: difficulty.width,
@@ -27,24 +23,18 @@ class DifficultyBloc extends Bloc<DifficultyEvent, DifficultyState> {
           mine: difficulty.mine));
     }
 
-    on<DifficultyBeginnerPressed>((event, emit) {
-      _gameStarted(const Difficulty.beginner());
-      emit(DifficultyUpdated(const Difficulty.beginner()));
-    });
-    on<DifficultyIntermediatePressed>((event, emit) {
-      _gameStarted(const Difficulty.intermediate());
-      emit(DifficultyUpdated(const Difficulty.intermediate()));
-    });
-    on<DifficultyExpertPressed>((event, emit) {
-      _gameStarted(const Difficulty.expert());
-      emit(DifficultyUpdated(const Difficulty.expert()));
-    });
-    on<DifficultyCustomPressed>((event, emit) {
-      emit(DifficultyCustomSelected(const Difficulty.custom()));
+    on<DifficultyOptionPressed>((event, emit) {
+      _gameStarted(Difficulty.withOption(event.option));
+      emit(DifficultyUpdated(Difficulty.withOption(event.option)));
+      if (event.option == DifficultyOption.custom) {
+        emit(
+            DifficultyCustomSelected(Difficulty.custom(config: _customConfig)));
+      }
     });
     on<DifficultyCustomEntered>((event, emit) {
-      _gameStarted(event.difficulty);
-      emit(DifficultyUpdated(event.difficulty));
+      _customConfig = event.config;
+      _gameStarted(Difficulty.custom(config: _customConfig));
+      emit(DifficultyCustomSelected(Difficulty.custom(config: _customConfig)));
     });
   }
 }
