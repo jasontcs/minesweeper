@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:minesweeper/bloc/difficulty/difficulty_bloc.dart';
-import 'package:minesweeper/bloc/game/game_bloc.dart';
 import 'package:minesweeper/model/difficulty_model.dart';
 import 'package:minesweeper/model/game_model.dart';
+
+import 'custom_value.dart';
 
 class DifficultyChips extends StatelessWidget {
   const DifficultyChips({Key? key}) : super(key: key);
@@ -126,46 +126,5 @@ class _CustomDifficultyFormState extends State<CustomDifficultyForm> {
         ),
       );
     });
-  }
-}
-
-class ValueField extends StatelessWidget {
-  final int? initialValue;
-  final FormFieldValidator<String>? validator;
-  final ValueChanged<int>? onChanged;
-  final String? labelText;
-
-  const ValueField({
-    Key? key,
-    this.initialValue,
-    this.validator,
-    this.onChanged,
-    this.labelText,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-          width: 40,
-          child: TextFormField(
-            textAlign: TextAlign.center,
-            initialValue: initialValue.toString(),
-            decoration: InputDecoration(
-              labelText: labelText,
-              floatingLabelAlignment: FloatingLabelAlignment.center,
-              errorStyle: const TextStyle(
-                height: 0.001,
-              ),
-            ),
-            keyboardType: const TextInputType.numberWithOptions(),
-            onChanged: (text) {
-              int? value = int.tryParse(text);
-              if (value != null) onChanged?.call(value);
-            },
-            validator: validator,
-          )),
-    );
   }
 }
