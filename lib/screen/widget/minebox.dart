@@ -52,6 +52,9 @@ class MineBoxTile extends StatelessWidget {
           onPressed: () {
             context.read<GameBloc>().add(GameBoxOpen(position: box.position));
           },
+          onLongPress: () {
+            context.read<GameBloc>().add(GameBoxFlag(position: box.position));
+          },
           child: GridTile(
             child: Center(
               child: MineBoxContent(box: box),
