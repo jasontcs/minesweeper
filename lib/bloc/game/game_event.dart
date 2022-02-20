@@ -1,4 +1,4 @@
-import 'package:minesweeper/model/game_model.dart';
+part of 'game_bloc.dart';
 
 abstract class GameEvent {}
 

@@ -1,12 +1,10 @@
 export 'package:flutter_bloc/flutter_bloc.dart';
-export 'timer_event.dart';
-export 'timer_state.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minesweeper/service/timer/timer_service.dart';
 
-import 'timer_event.dart';
-import 'timer_state.dart';
+part 'timer_event.dart';
+part 'timer_state.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
   final TimerService _timerService = TimerService.instance;

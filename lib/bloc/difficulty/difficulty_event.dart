@@ -1,6 +1,4 @@
-import 'package:minesweeper/bloc/difficulty/difficulty_bloc.dart';
-import 'package:minesweeper/model/difficulty_model.dart';
-import 'package:minesweeper/model/game_model.dart';
+part of 'difficulty_bloc.dart';
 
 abstract class DifficultyEvent {}
 

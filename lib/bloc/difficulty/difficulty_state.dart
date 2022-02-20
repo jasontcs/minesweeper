@@ -1,4 +1,4 @@
-import 'package:minesweeper/model/difficulty_model.dart';
+part of 'difficulty_bloc.dart';
 
 abstract class DifficultyState {
   final Difficulty difficulty;

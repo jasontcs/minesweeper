@@ -1,23 +1,21 @@
-export 'difficulty_event.dart';
-export 'difficulty_state.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:minesweeper/bloc/game/game_bloc.dart';
+import 'package:minesweeper/global_key.dart';
 import 'package:minesweeper/model/difficulty_model.dart';
 import 'package:minesweeper/model/game_model.dart';
 
-import 'difficulty_event.dart';
-import 'difficulty_state.dart';
+part 'difficulty_event.dart';
+part 'difficulty_state.dart';
 
 class DifficultyBloc extends Bloc<DifficultyEvent, DifficultyState> {
-  final GameBloc gameBloc;
+  final GameBloc _gameBloc = BlocProvider.of<GameBloc>(AppGlobal.context);
   MineBoxGameConfig _customConfig = Difficulty.custom();
 
-  DifficultyBloc({required this.gameBloc})
-      : super(DifficultyUpdated(const Difficulty.beginner())) {
-    gameBloc.add(GameStarted.withConfig(state.difficulty));
+  DifficultyBloc() : super(DifficultyUpdated(const Difficulty.beginner())) {
+    _gameBloc.add(GameStarted.withConfig(state.difficulty));
     void _gameStarted(Difficulty difficulty) {
-      gameBloc.add(GameStarted(
+      _gameBloc.add(GameStarted(
           width: difficulty.width,
           height: difficulty.height,
           mine: difficulty.mine));

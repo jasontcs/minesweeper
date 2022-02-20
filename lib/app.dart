@@ -4,6 +4,7 @@ import 'package:minesweeper/bloc/difficulty/difficulty_bloc.dart';
 import 'package:minesweeper/bloc/game/game_bloc.dart';
 import 'package:minesweeper/bloc/timer/timer_bloc.dart';
 
+import 'global_key.dart';
 import 'screen/game_screen.dart';
 
 class App extends StatelessWidget {
@@ -13,17 +14,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<TimerBloc>(
-          create: (BuildContext context) => TimerBloc(),
-        ),
-        BlocProvider<GameBloc>(
-          create: (BuildContext context) =>
-              GameBloc(timerBloc: BlocProvider.of<TimerBloc>(context)),
-        ),
+        BlocProvider<TimerBloc>(create: (BuildContext context) => TimerBloc()),
+        BlocProvider<GameBloc>(create: (BuildContext context) => GameBloc()),
         BlocProvider<DifficultyBloc>(
-          create: (BuildContext context) =>
-              DifficultyBloc(gameBloc: BlocProvider.of<GameBloc>(context)),
-        ),
+            create: (BuildContext context) => DifficultyBloc()),
       ],
       child: MaterialApp(
         home: const GameScreen(),
@@ -38,6 +32,7 @@ class App extends StatelessWidget {
               labelStyle: GoogleFonts.anton(),
             )),
         darkTheme: ThemeData.dark(),
+        navigatorKey: AppGlobal.navigatorKey,
       ),
     );
   }
