@@ -10,7 +10,10 @@ class MineGameGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GameBloc, GameState>(
+    return BlocConsumer<GameBloc, GameState>(
+      listener: (context, state) {
+        if (state is GameWin) {}
+      },
       builder: (context, state) {
         if (state is GameActive) {
           return Column(

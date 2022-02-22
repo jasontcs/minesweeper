@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:minesweeper/util/dialog.dart';
 
 import 'widget/difficulty_chips.dart';
 import 'widget/flag_count_down.dart';
@@ -32,6 +34,15 @@ class GameScreen extends StatelessWidget {
                 ),
                 const MineGameGrid(),
                 const DifficultyChips(),
+                ElevatedButton(
+                  onPressed: () async {
+                    await AppDialog.askName(context);
+                    UserCredential userCredential =
+                        await FirebaseAuth.instance.signInAnonymously();
+                    print(userCredential);
+                  },
+                  child: Text('data'),
+                ),
               ],
             ),
           ),
