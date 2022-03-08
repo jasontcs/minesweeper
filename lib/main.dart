@@ -9,12 +9,11 @@ import 'app.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
-  await AppSingleton.setup();
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await AppSingleton.setup();
 
   if (kIsWeb) window.document.onContextMenu.listen((e) => e.preventDefault());
 

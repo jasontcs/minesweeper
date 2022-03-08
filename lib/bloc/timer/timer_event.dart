@@ -2,13 +2,9 @@ part of 'timer_bloc.dart';
 
 abstract class TimerEvent {}
 
+class _TimerInitial extends TimerEvent {}
+
 class TimerStarted extends TimerEvent {}
-
-class TimerTicked extends TimerEvent {
-  final int second;
-
-  TimerTicked({required this.second});
-}
 
 class TimerStopped extends TimerEvent {}
 

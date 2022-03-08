@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:minesweeper/bloc/difficulty/difficulty_bloc.dart';
 import 'package:minesweeper/bloc/game/game_bloc.dart';
 import 'package:minesweeper/bloc/timer/timer_bloc.dart';
+import 'package:minesweeper/bloc/win_record/win_record_bloc.dart';
 
 import 'global_key.dart';
 import 'screen/game_screen.dart';
@@ -14,23 +15,24 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<TimerBloc>(create: (BuildContext context) => TimerBloc()),
-        BlocProvider<GameBloc>(create: (BuildContext context) => GameBloc()),
-        BlocProvider<DifficultyBloc>(
-            create: (BuildContext context) => DifficultyBloc()),
+        BlocProvider<TimerBloc>(create: (_) => TimerBloc()),
+        BlocProvider<GameBloc>(create: (_) => GameBloc()),
+        BlocProvider<DifficultyBloc>(create: (_) => DifficultyBloc()),
+        BlocProvider<WinRecordBloc>(create: (_) => WinRecordBloc()),
       ],
       child: MaterialApp(
         home: const GameScreen(),
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.light,
         theme: ThemeData(
-            useMaterial3: true,
-            textTheme: GoogleFonts.antonTextTheme(),
-            chipTheme: ChipThemeData.fromDefaults(
-              brightness: Brightness.light,
-              secondaryColor: Theme.of(context).primaryColor,
-              labelStyle: GoogleFonts.anton(),
-            )),
+          useMaterial3: true,
+          textTheme: GoogleFonts.antonTextTheme(),
+          chipTheme: ChipThemeData.fromDefaults(
+            brightness: Brightness.light,
+            secondaryColor: Theme.of(context).primaryColor,
+            labelStyle: GoogleFonts.anton(),
+          ),
+        ),
         darkTheme: ThemeData.dark(),
         navigatorKey: AppGlobal.navigatorKey,
       ),

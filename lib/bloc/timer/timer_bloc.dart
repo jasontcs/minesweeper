@@ -10,13 +10,9 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   final TimerService _timerService = TimerService.instance;
 
   TimerBloc() : super(TimerState()) {
-    _timerService.time.listen(
-      (second) {
-        add(TimerTicked(second: second));
-      },
-    );
-    on<TimerTicked>((event, emit) {
-      emit(TimerState(second: event.second));
+    on<_TimerInitial>((event, emit) async {
+      await emit.forEach(_timerService.time,
+          onData: ((int second) => TimerState(second: second)));
     });
     on<TimerStarted>((event, emit) async {
       _timerService.start();
@@ -27,5 +23,6 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     on<TimerResetted>((event, emit) {
       _timerService.reset();
     });
+    add(_TimerInitial());
   }
 }

@@ -1,5 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import 'game_model.dart';
 
+@JsonEnum()
 enum DifficultyOption {
   beginner,
   intermeidate,
@@ -48,7 +51,7 @@ class Difficulty extends MineBoxGameConfig {
           mine: config.mine,
         );
 
-  static Difficulty withOption(DifficultyOption option) {
+  factory Difficulty.withOption(DifficultyOption option) {
     switch (option) {
       case DifficultyOption.beginner:
         return const Difficulty.beginner();
