@@ -50,7 +50,7 @@ class ScoreBoard extends StatelessWidget {
                           ]))
                       .toList(),
                 )
-              : const Text('Not Available');
+              : const Text('');
         });
       }),
     );
