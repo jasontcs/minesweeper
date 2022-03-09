@@ -21,9 +21,9 @@ class ScoreBoard extends StatelessWidget {
           DifficultyOption difficultyOption = difficultyState.difficulty.option;
           List<WinRecord> winRecords = winRecordState.winRecords
               .where((element) => element.difficulty == difficultyOption)
-              .toList()
-            ..sort(((a, b) => a.score.compareTo(b.score)))
-            ..take(10);
+              .sorted(((a, b) => a.score.compareTo(b.score)))
+              .take(10)
+              .toList();
 
           String formatDuration(int totalSeconds) {
             final duration = Duration(seconds: totalSeconds);
