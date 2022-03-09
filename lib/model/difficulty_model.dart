@@ -32,7 +32,7 @@ class Difficulty extends MineBoxGameConfig {
           mine: 40,
         );
   const Difficulty.expert()
-      : label = 'Expert (30x96)',
+      : label = 'Expert (30x16)',
         option = DifficultyOption.expert,
         super(
           width: 30,
