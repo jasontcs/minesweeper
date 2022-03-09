@@ -38,7 +38,7 @@ class ScoreBoard extends StatelessWidget {
                   headingTextStyle:
                       const TextStyle(fontWeight: FontWeight.bold),
                   columns: const [
-                    DataColumn(label: Text('Rank')),
+                    DataColumn(label: Text('Top 10')),
                     DataColumn(label: Text('Name')),
                     DataColumn(label: Text('Time')),
                   ],
