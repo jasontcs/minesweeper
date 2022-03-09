@@ -12,12 +12,15 @@ class WinRecordBloc extends Bloc<WinRecordEvent, WinRecordState> {
 
   WinRecordBloc() : super(WinRecordState()) {
     on<_WinRecordInit>((event, emit) async {
-      await _winRecordService.login(null);
-      await emit.forEach(_winRecordService.winRecords,
+      await _winRecordService.login();
+      emit(state.copyWith(playerName: _winRecordService.player?.name));
+      await emit.forEach(_winRecordService.winRecordsStream,
           onData: ((List<WinRecord> winRecords) =>
               state.copyWith(winRecords: winRecords)));
     });
     on<WinRecordAdd>((event, emit) async {
+      await _winRecordService.mergePlayer(event.name);
+      emit(state.copyWith(playerName: _winRecordService.player!.name));
       await _winRecordService.addRecord(
           score: event.score, difficulty: event.difficultyOption);
     });

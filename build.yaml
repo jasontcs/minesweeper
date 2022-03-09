@@ -9,4 +9,3 @@ targets:
           # The default value for each is listed.
           checked: true
           field_rename: snake
-          include_if_null: false

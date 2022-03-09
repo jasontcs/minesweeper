@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:minesweeper/bloc/difficulty/difficulty_bloc.dart';
 import 'package:minesweeper/bloc/game/game_bloc.dart';
+import 'package:minesweeper/bloc/timer/timer_bloc.dart';
+import 'package:minesweeper/bloc/win_record/win_record_bloc.dart';
+import 'package:minesweeper/util/dialog.dart';
 
 import 'minebox.dart';
 
@@ -11,8 +15,20 @@ class MineGameGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<GameBloc, GameState>(
-      listener: (context, state) {
-        if (state is GameWin) {}
+      listener: (context, state) async {
+        if (state is GameWin) {
+          String name = await AppDialog.askName(context);
+          DifficultyBloc difficultyBloc =
+              BlocProvider.of<DifficultyBloc>(context);
+          WinRecordBloc winRecordBloc = BlocProvider.of<WinRecordBloc>(context);
+          TimerBloc timerBloc = BlocProvider.of<TimerBloc>(context);
+          winRecordBloc.add(
+            WinRecordAdd(
+                name: name,
+                score: timerBloc.state.second ?? -1,
+                difficultyOption: difficultyBloc.state.difficulty.option),
+          );
+        }
       },
       builder: (context, state) {
         if (state is GameActive) {

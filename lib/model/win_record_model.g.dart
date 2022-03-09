@@ -1036,6 +1036,8 @@ Map<String, dynamic> _$WinRecordToJson(WinRecord instance) {
   final val = <String, dynamic>{
     'difficulty': _$DifficultyOptionEnumMap[instance.difficulty],
     'score': instance.score,
+    'created_at': const TimestampConverter().toJson(instance.createdAt),
+    'player_id': instance.playerId,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -1044,9 +1046,6 @@ Map<String, dynamic> _$WinRecordToJson(WinRecord instance) {
     }
   }
 
-  writeNotNull(
-      'created_at', const TimestampConverter().toJson(instance.createdAt));
-  val['player_id'] = instance.playerId;
   writeNotNull('player', instance.player);
   return val;
 }

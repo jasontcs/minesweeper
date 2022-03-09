@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:minesweeper/bloc/win_record/win_record_bloc.dart';
 
 class AppDialog {
   static Future<String> askName(BuildContext context) async {
     final _formKey = GlobalKey<FormState>();
-    String name = '';
+    String name = context.read<WinRecordBloc>().state.playerName ?? '';
     await showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -13,6 +14,7 @@ class AppDialog {
           child: AlertDialog(
             title: const Text('Congrat!'),
             content: TextFormField(
+              initialValue: context.read<WinRecordBloc>().state.playerName,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: const InputDecoration(hintText: 'Who are you?'),
               onChanged: (text) {

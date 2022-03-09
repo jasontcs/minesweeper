@@ -9,12 +9,22 @@ class WinRecordService {
   static WinRecordService instance = AppSingleton.instance<WinRecordService>();
 
   String? _playerId;
-  String? name;
+  Player? _player;
 
-  Future<void> login(String? name) async {
+  Player? get player => _player;
+
+  Future<void> login() async {
     UserCredential userCredential =
         await FirebaseAuth.instance.signInAnonymously();
+
     _playerId = userCredential.user?.uid;
+    _player = (await playersRef.doc(_playerId).get()).data;
+  }
+
+  Future<void> mergePlayer(String name) async {
+    await login();
+    await playersRef.doc(_playerId).set(Player(name: name));
+    _player = Player(name: name);
   }
 
   Future<void> addRecord(
@@ -28,18 +38,33 @@ class WinRecordService {
     ));
   }
 
-  Stream<List<Player>> get players =>
-      playersRef.snapshots().combineLatest(winRecordsRef.snapshots(),
-          (p0, WinRecordQuerySnapshot p1) {
-        return p0.docs
-            .map((e1) => e1.data
-              ..winRecords = p1.docs
-                  .where((element) => element.data.playerId == e1.id)
-                  .map((e2) => e2.data..player = e1.data)
-                  .toList())
-            .toList();
-      });
+  Stream<List<Player>> get playersStream =>
+      playersRef.snapshots().combineLatest(
+          winRecordsRef.snapshots(),
+          (p0, WinRecordQuerySnapshot p1) => p0.docs
+              .map((e1) => e1.data
+                ..winRecords = p1.docs
+                    .where((element) => element.data.playerId == e1.id)
+                    .map((e2) => e2.data..player = e1.data)
+                    .toList())
+              .toList());
 
-  Stream<List<WinRecord>> get winRecords => players.map((event) =>
+  Stream<List<WinRecord>> get winRecordsStream => playersStream.map((event) =>
       event.expand<WinRecord>((element) => element.winRecords ?? []).toList());
+
+  Future<List<Player>> get players async {
+    var playersDoc = (await playersRef.get()).docs;
+    var winRecordsDoc = (await winRecordsRef.get()).docs;
+    return playersDoc
+        .map((e1) => e1.data
+          ..winRecords = winRecordsDoc
+              .where((element) => element.data.playerId == e1.id)
+              .map((e2) => e2.data..player = e1.data)
+              .toList())
+        .toList();
+  }
+
+  Future<List<WinRecord>> get winRecords async => (await players)
+      .expand<WinRecord>((element) => element.winRecords ?? [])
+      .toList();
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minesweeper/bloc/difficulty/difficulty_bloc.dart';
+import 'package:minesweeper/bloc/win_record/win_record_bloc.dart';
 import 'package:minesweeper/model/difficulty_model.dart';
 import 'package:minesweeper/model/game_model.dart';
 

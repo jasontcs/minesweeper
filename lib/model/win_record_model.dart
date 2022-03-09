@@ -15,6 +15,7 @@ class WinRecord {
   @TimestampConverter()
   final DateTime createdAt;
   final String playerId;
+  @JsonKey(includeIfNull: false)
   Player? player;
 
   WinRecord({
@@ -35,6 +36,7 @@ final winRecordsRef = WinRecordCollectionReference();
 @JsonSerializable()
 class Player {
   final String name;
+  @JsonKey(includeIfNull: false)
   List<WinRecord>? winRecords;
 
   Player({
