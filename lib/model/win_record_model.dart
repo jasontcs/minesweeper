@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,7 +9,7 @@ import 'difficulty_model.dart';
 part 'win_record_model.g.dart';
 
 @JsonSerializable()
-class WinRecord {
+class WinRecord with EquatableMixin {
   final DifficultyOption difficulty;
   @Min(0)
   final int score;
@@ -17,6 +18,8 @@ class WinRecord {
   final String playerId;
   @JsonKey(includeIfNull: false)
   Player? player;
+  @JsonKey(includeIfNull: false)
+  bool? isNew;
 
   WinRecord({
     required this.score,
@@ -28,6 +31,9 @@ class WinRecord {
       _$WinRecordFromJson(json);
 
   Map<String, Object?> toJson() => _$WinRecordToJson(this);
+
+  @override
+  List<Object?> get props => [createdAt, playerId];
 }
 
 @Collection<WinRecord>('win_records')

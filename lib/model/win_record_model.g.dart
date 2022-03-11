@@ -118,6 +118,8 @@ abstract class WinRecordDocumentReference
   Future<void> update({
     int score,
     String playerId,
+    bool? isNew,
+    List<Object?> props,
   });
 
   Future<void> set(WinRecord value);
@@ -164,10 +166,14 @@ class _$WinRecordDocumentReference
   Future<void> update({
     Object? score = _sentinel,
     Object? playerId = _sentinel,
+    Object? isNew = _sentinel,
+    Object? props = _sentinel,
   }) async {
     final json = {
       if (score != _sentinel) "score": score as int,
       if (playerId != _sentinel) "playerId": playerId as String,
+      if (isNew != _sentinel) "isNew": isNew as bool?,
+      if (props != _sentinel) "props": props as List<Object?>,
     };
 
     return reference.update(json);
@@ -239,6 +245,27 @@ abstract class WinRecordQuery
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
+  WinRecordQuery whereIsNew({
+    bool? isEqualTo,
+    bool? isNotEqualTo,
+    bool? isLessThan,
+    bool? isLessThanOrEqualTo,
+    bool? isGreaterThan,
+    bool? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<bool?>? whereIn,
+    List<bool?>? whereNotIn,
+  });
+  WinRecordQuery whereProps({
+    List<Object?>? isEqualTo,
+    List<Object?>? isNotEqualTo,
+    List<Object?>? isLessThan,
+    List<Object?>? isLessThanOrEqualTo,
+    List<Object?>? isGreaterThan,
+    List<Object?>? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<Object?>? arrayContainsAny,
+  });
 
   WinRecordQuery orderByScore({
     bool descending = false,
@@ -258,6 +285,30 @@ abstract class WinRecordQuery
     String startAfter,
     String endAt,
     String endBefore,
+    WinRecordDocumentSnapshot? startAtDocument,
+    WinRecordDocumentSnapshot? endAtDocument,
+    WinRecordDocumentSnapshot? endBeforeDocument,
+    WinRecordDocumentSnapshot? startAfterDocument,
+  });
+
+  WinRecordQuery orderByIsNew({
+    bool descending = false,
+    bool? startAt,
+    bool? startAfter,
+    bool? endAt,
+    bool? endBefore,
+    WinRecordDocumentSnapshot? startAtDocument,
+    WinRecordDocumentSnapshot? endAtDocument,
+    WinRecordDocumentSnapshot? endBeforeDocument,
+    WinRecordDocumentSnapshot? startAfterDocument,
+  });
+
+  WinRecordQuery orderByProps({
+    bool descending = false,
+    List<Object?> startAt,
+    List<Object?> startAfter,
+    List<Object?> endAt,
+    List<Object?> endBefore,
     WinRecordDocumentSnapshot? startAtDocument,
     WinRecordDocumentSnapshot? endAtDocument,
     WinRecordDocumentSnapshot? endBeforeDocument,
@@ -382,6 +433,60 @@ class _$WinRecordQuery extends QueryReference<WinRecordQuerySnapshot>
     );
   }
 
+  WinRecordQuery whereIsNew({
+    bool? isEqualTo,
+    bool? isNotEqualTo,
+    bool? isLessThan,
+    bool? isLessThanOrEqualTo,
+    bool? isGreaterThan,
+    bool? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<bool?>? whereIn,
+    List<bool?>? whereNotIn,
+  }) {
+    return _$WinRecordQuery(
+      reference.where(
+        'isNew',
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
+  WinRecordQuery whereProps({
+    List<Object?>? isEqualTo,
+    List<Object?>? isNotEqualTo,
+    List<Object?>? isLessThan,
+    List<Object?>? isLessThanOrEqualTo,
+    List<Object?>? isGreaterThan,
+    List<Object?>? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<Object?>? arrayContainsAny,
+  }) {
+    return _$WinRecordQuery(
+      reference.where(
+        'props',
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        arrayContainsAny: arrayContainsAny,
+      ),
+      _collection,
+    );
+  }
+
   WinRecordQuery orderByScore({
     bool descending = false,
     Object? startAt = _sentinel,
@@ -436,6 +541,90 @@ class _$WinRecordQuery extends QueryReference<WinRecordQuerySnapshot>
     WinRecordDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy('playerId', descending: false);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$WinRecordQuery(query, _collection);
+  }
+
+  WinRecordQuery orderByIsNew({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    WinRecordDocumentSnapshot? startAtDocument,
+    WinRecordDocumentSnapshot? endAtDocument,
+    WinRecordDocumentSnapshot? endBeforeDocument,
+    WinRecordDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy('isNew', descending: false);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$WinRecordQuery(query, _collection);
+  }
+
+  WinRecordQuery orderByProps({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    WinRecordDocumentSnapshot? startAtDocument,
+    WinRecordDocumentSnapshot? endAtDocument,
+    WinRecordDocumentSnapshot? endBeforeDocument,
+    WinRecordDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy('props', descending: false);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1027,9 +1216,14 @@ WinRecord _$WinRecordFromJson(Map<String, dynamic> json) => $checkedCreate(
             'player',
             (v) => val.player =
                 v == null ? null : Player.fromJson(v as Map<String, dynamic>));
+        $checkedConvert('is_new', (v) => val.isNew = v as bool?);
         return val;
       },
-      fieldKeyMap: const {'createdAt': 'created_at', 'playerId': 'player_id'},
+      fieldKeyMap: const {
+        'createdAt': 'created_at',
+        'playerId': 'player_id',
+        'isNew': 'is_new'
+      },
     );
 
 Map<String, dynamic> _$WinRecordToJson(WinRecord instance) {
@@ -1047,6 +1241,7 @@ Map<String, dynamic> _$WinRecordToJson(WinRecord instance) {
   }
 
   writeNotNull('player', instance.player);
+  writeNotNull('is_new', instance.isNew);
   return val;
 }
 

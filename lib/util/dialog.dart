@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minesweeper/bloc/win_record/win_record_bloc.dart';
 
-class AppDialog {
+class AppPopUp {
   static Future<String> askName(BuildContext context) async {
     final _formKey = GlobalKey<FormState>();
     String name = context.read<WinRecordBloc>().state.playerName ?? '';
@@ -41,4 +41,20 @@ class AppDialog {
     );
     return name;
   }
+
+  static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
+          BuildContext context,
+          {required Widget content}) =>
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: content,
+          behavior: SnackBarBehavior.floating,
+          width: 500,
+          action: SnackBarAction(
+            label: 'Dismiss',
+            textColor: Theme.of(context).primaryColorLight,
+            onPressed: ScaffoldMessenger.of(context).hideCurrentSnackBar,
+          ),
+        ),
+      );
 }

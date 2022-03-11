@@ -9,7 +9,7 @@ class GameStopwatch extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TimerBloc, TimerState>(
       builder: (context, state) => Text(
-        state.second?.toString() ?? '-',
+        '${state.second}'.padLeft(3, '0'),
         style: Theme.of(context).textTheme.headline3,
       ),
     );

@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 
 class AppBlocObserver extends BlocObserver {
-  final Logger _logger = Logger();
+  final Logger _logger = Logger(level: Level.nothing);
 
   @override
   void onCreate(BlocBase bloc) {

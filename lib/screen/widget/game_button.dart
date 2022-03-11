@@ -16,13 +16,15 @@ class GameButton extends StatelessWidget {
         },
         icon: BlocBuilder<GameBloc, GameState>(
           builder: (context, state) {
+            String imageUrl;
             if (state is GameWin) {
-              return const Icon(Icons.sentiment_very_satisfied_outlined);
+              imageUrl = 'asset/win.png';
             } else if (state is GameLose) {
-              return const Icon(Icons.sentiment_very_dissatisfied_outlined);
+              imageUrl = 'asset/lose.png';
             } else {
-              return const Icon(Icons.sentiment_satisfied_outlined);
+              imageUrl = 'asset/playing.png';
             }
+            return CircleAvatar(backgroundImage: Image.asset(imageUrl).image);
           },
         ),
       ),

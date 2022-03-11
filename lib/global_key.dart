@@ -7,5 +7,8 @@ class AppGlobal {
 
   final _navigatorKey = GlobalKey<NavigatorState>();
   static GlobalKey<NavigatorState> navigatorKey = _instance._navigatorKey;
+  final _messengerKey = GlobalKey<ScaffoldMessengerState>();
+  static GlobalKey<ScaffoldMessengerState> messengerKey =
+      _instance._messengerKey;
   static BuildContext context = navigatorKey.currentContext!;
 }

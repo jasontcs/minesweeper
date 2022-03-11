@@ -17,7 +17,7 @@ class MineGameGrid extends StatelessWidget {
     return BlocConsumer<GameBloc, GameState>(
       listener: (context, state) async {
         if (state is GameWin) {
-          String name = await AppDialog.askName(context);
+          String name = await AppPopUp.askName(context);
           DifficultyBloc difficultyBloc =
               BlocProvider.of<DifficultyBloc>(context);
           WinRecordBloc winRecordBloc = BlocProvider.of<WinRecordBloc>(context);
@@ -32,20 +32,23 @@ class MineGameGrid extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is GameActive) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(
-              state.height,
-              (indexY) => Row(
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(
-                  state.width,
-                  (indexX) => MineBoxTile(
-                    side: 26,
-                    box: state.boxes.singleWhere((box) {
-                      return box.position.x == indexX + 1 &&
-                          box.position.y == indexY + 1;
-                    }),
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(
+                state.height,
+                (indexY) => Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: List.generate(
+                    state.width,
+                    (indexX) => MineBoxTile(
+                      side: 26,
+                      box: state.boxes.singleWhere((box) {
+                        return box.position.x == indexX + 1 &&
+                            box.position.y == indexY + 1;
+                      }),
+                    ),
                   ),
                 ),
               ),

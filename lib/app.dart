@@ -35,6 +35,7 @@ class App extends StatelessWidget {
         ),
         darkTheme: ThemeData.dark(),
         navigatorKey: AppGlobal.navigatorKey,
+        scaffoldMessengerKey: AppGlobal.messengerKey,
       ),
     );
   }
