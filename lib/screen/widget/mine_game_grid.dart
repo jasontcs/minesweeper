@@ -3,6 +3,7 @@ import 'package:minesweeper/bloc/difficulty/difficulty_bloc.dart';
 import 'package:minesweeper/bloc/game/game_bloc.dart';
 import 'package:minesweeper/bloc/timer/timer_bloc.dart';
 import 'package:minesweeper/bloc/win_record/win_record_bloc.dart';
+import 'package:minesweeper/config.dart';
 import 'package:minesweeper/model/difficulty_model.dart';
 import 'package:minesweeper/util/dialog.dart';
 
@@ -37,23 +38,15 @@ class MineGameGrid extends StatelessWidget {
         if (state is GameActive) {
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: List.generate(
-                state.height,
-                (indexY) => Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: List.generate(
-                    state.width,
-                    (indexX) => MineBoxTile(
-                      side: 26,
-                      box: state.boxes.singleWhere((box) {
-                        return box.position.x == indexX + 1 &&
-                            box.position.y == indexY + 1;
-                      }),
-                    ),
-                  ),
-                ),
+            child: SizedBox(
+              width: (AppConfig.mineboxSide * state.width).toDouble(),
+              height: (AppConfig.mineboxSide * state.height).toDouble(),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: state.width),
+                itemBuilder: (context, index) => MineBoxTile(
+                    box: state.boxes[index], side: AppConfig.mineboxSide),
+                itemCount: state.width * state.height,
               ),
             ),
           );
