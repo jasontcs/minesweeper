@@ -32,6 +32,11 @@ class App extends StatelessWidget {
             secondaryColor: Theme.of(context).primaryColor,
             labelStyle: GoogleFonts.anton(),
           ),
+          snackBarTheme: SnackBarThemeData(
+            contentTextStyle:
+                GoogleFonts.anton(color: Theme.of(context).canvasColor),
+            // actionTextColor: Theme.of(context).primaryColorLight,
+          ),
         ),
         darkTheme: ThemeData.dark(),
         navigatorKey: AppGlobal.navigatorKey,

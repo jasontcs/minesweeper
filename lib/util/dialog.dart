@@ -52,7 +52,6 @@ class AppPopUp {
           width: 500,
           action: SnackBarAction(
             label: 'Dismiss',
-            textColor: Theme.of(context).primaryColorLight,
             onPressed: ScaffoldMessenger.of(context).hideCurrentSnackBar,
           ),
         ),
