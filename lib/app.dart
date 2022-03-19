@@ -7,6 +7,7 @@ import 'package:minesweeper/bloc/win_record/win_record_bloc.dart';
 
 import 'global_key.dart';
 import 'screen/game_screen.dart';
+import 'util/new_record_notification_listener.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -41,6 +42,8 @@ class App extends StatelessWidget {
         darkTheme: ThemeData.dark(),
         navigatorKey: AppGlobal.navigatorKey,
         scaffoldMessengerKey: AppGlobal.messengerKey,
+        builder: (context, child) =>
+            NewRecordNotificationListener(child: child),
       ),
     );
   }

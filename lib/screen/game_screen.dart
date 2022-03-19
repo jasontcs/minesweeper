@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:minesweeper/util/new_record_notification_listener.dart';
 import 'widget/difficulty_chips.dart';
 import 'widget/header.dart';
 import 'widget/mine_game_grid.dart';
@@ -10,18 +9,16 @@ class GameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NewRecordNotificationListener(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: const [
-                AppHeader(),
-                MineGameGrid(),
-                DifficultyChips(),
-                ScoreBoard(),
-              ],
-            ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: const [
+              AppHeader(),
+              MineGameGrid(),
+              DifficultyChips(),
+              ScoreBoard(),
+            ],
           ),
         ),
       ),
