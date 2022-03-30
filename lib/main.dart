@@ -1,7 +1,4 @@
-import 'dart:html';
-
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minesweeper/util/singleton.dart';
@@ -9,6 +6,7 @@ import 'package:minesweeper/util/singleton.dart';
 import 'app.dart';
 import 'firebase_options.dart';
 import 'util/bloc_observer.dart';
+import 'load_app.dart' if (dart.library.html) 'load_web.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,9 +14,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await AppSingleton.setup();
-
-  if (kIsWeb) window.document.onContextMenu.listen((e) => e.preventDefault());
-
+  load();
   BlocOverrides.runZoned(
     () {
       runApp(const App());
