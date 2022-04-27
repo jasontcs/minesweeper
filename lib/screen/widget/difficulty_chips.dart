@@ -9,29 +9,32 @@ class DifficultyChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DifficultyBloc, DifficultyState>(
-        builder: (context, state) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Wrap(
-            children: DifficultyOption.values
-                .map((option) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ChoiceChip(
-                        label: Text(Difficulty.withOption(option).label),
-                        selected: state.difficulty.option == option,
-                        onSelected: (selected) {
-                          BlocProvider.of<DifficultyBloc>(context)
-                              .add(DifficultyOptionPressed(option: option));
-                        },
-                      ),
-                    ))
-                .toList(),
-          ),
-          const CustomDifficultyForm(),
-        ],
-      );
-    });
+    return BlocSelector<DifficultyBloc, DifficultyState, DifficultyOption>(
+      selector: (state) => state.difficulty.option,
+      builder: (context, option) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Wrap(
+              children: DifficultyOption.values
+                  .map((choiceOption) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ChoiceChip(
+                          label:
+                              Text(Difficulty.withOption(choiceOption).label),
+                          selected: option == choiceOption,
+                          onSelected: (selected) {
+                            BlocProvider.of<DifficultyBloc>(context).add(
+                                DifficultyOptionPressed(option: choiceOption));
+                          },
+                        ),
+                      ))
+                  .toList(),
+            ),
+            const CustomDifficultyForm(),
+          ],
+        );
+      },
+    );
   }
 }

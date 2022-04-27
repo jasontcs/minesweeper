@@ -7,9 +7,12 @@ class FlagCountDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GameBloc, GameState>(
-      builder: (context, state) => Text(
-        (state is GameActive ? state.flagLeft.toString() : '').padLeft(3, '0'),
+    return BlocSelector<GameBloc, GameState, String>(
+      selector: (state) =>
+          (state is GameActive ? state.flagLeft.toString() : '')
+              .padLeft(3, '0'),
+      builder: (context, data) => Text(
+        data,
         style: Theme.of(context).textTheme.headline3,
       ),
     );

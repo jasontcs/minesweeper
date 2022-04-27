@@ -15,41 +15,43 @@ class ScoreBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DifficultyBloc, DifficultyState>(
-        builder: (context, difficultyState) {
-      return BlocBuilder<WinRecordBloc, WinRecordState>(
-          builder: (context, winRecordState) {
-        DifficultyOption difficultyOption = difficultyState.difficulty.option;
-        List<WinRecord> winRecords = winRecordState.winRecords
-            .where((element) => element.difficulty == difficultyOption)
-            .sorted(((a, b) => a.score.compareTo(b.score)))
-            .take(AppConfig.winRecordShowCount)
-            .toList();
+    return BlocSelector<DifficultyBloc, DifficultyState, DifficultyOption>(
+      selector: (state) => state.difficulty.option,
+      builder: (context, option) {
+        return BlocSelector<WinRecordBloc, WinRecordState, List<WinRecord>>(
+            selector: (state) => state.winRecords,
+            builder: (context, winRecords) {
+              List<WinRecord> filteredWinRecords = winRecords
+                  .where((element) => element.difficulty == option)
+                  .sorted(((a, b) => a.score.compareTo(b.score)))
+                  .take(AppConfig.winRecordShowCount)
+                  .toList();
 
-        return difficultyOption != DifficultyOption.custom
-            ? DataTable(
-                dataTextStyle: Theme.of(context).textTheme.bodySmall,
-                headingTextStyle: Theme.of(context).textTheme.titleSmall,
-                columns: const [
-                  DataColumn(
-                      label: Text('Top ${AppConfig.winRecordShowCount}')),
-                  DataColumn(label: Text('Name')),
-                  DataColumn(label: Text('Time')),
-                ],
-                rows: winRecords
-                    .mapIndexed((index, record) => DataRow(cells: [
-                          DataCell(Badge(
-                            child: Text('${index + 1}'),
-                            showBadge: record.isNew == true,
-                            padding: const EdgeInsets.all(4),
-                          )),
-                          DataCell(Text(record.player?.name ?? '-')),
-                          DataCell(Text(formatDuration(record.score))),
-                        ]))
-                    .toList(),
-              )
-            : const Text('');
-      });
-    });
+              return option != DifficultyOption.custom
+                  ? DataTable(
+                      dataTextStyle: Theme.of(context).textTheme.bodySmall,
+                      headingTextStyle: Theme.of(context).textTheme.titleSmall,
+                      columns: const [
+                        DataColumn(
+                            label: Text('Top ${AppConfig.winRecordShowCount}')),
+                        DataColumn(label: Text('Name')),
+                        DataColumn(label: Text('Time')),
+                      ],
+                      rows: filteredWinRecords
+                          .mapIndexed((index, record) => DataRow(cells: [
+                                DataCell(Badge(
+                                  child: Text('${index + 1}'),
+                                  showBadge: record.isNew == true,
+                                  padding: const EdgeInsets.all(4),
+                                )),
+                                DataCell(Text(record.player?.name ?? '-')),
+                                DataCell(Text(formatDuration(record.score))),
+                              ]))
+                          .toList(),
+                    )
+                  : const Text('');
+            });
+      },
+    );
   }
 }
