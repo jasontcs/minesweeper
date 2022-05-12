@@ -3,14 +3,14 @@ import 'package:minesweeper/bloc/win_record/win_record_bloc.dart';
 
 class AppPopUp {
   static Future<String> askName(BuildContext context) async {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     String name = context.read<WinRecordBloc>().state.playerName ?? '';
     await showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return Form(
-          key: _formKey,
+          key: formKey,
           child: AlertDialog(
             title: const Text('Congrat!'),
             content: TextFormField(
@@ -29,7 +29,7 @@ class AppPopUp {
               TextButton(
                 child: const Text('Enter'),
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+                  if (formKey.currentState!.validate()) {
                     Navigator.of(context).pop();
                   }
                 },

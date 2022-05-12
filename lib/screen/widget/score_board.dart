@@ -40,9 +40,9 @@ class ScoreBoard extends StatelessWidget {
                       rows: filteredWinRecords
                           .mapIndexed((index, record) => DataRow(cells: [
                                 DataCell(Badge(
-                                  child: Text('${index + 1}'),
                                   showBadge: record.isNew == true,
                                   padding: const EdgeInsets.all(4),
+                                  child: Text('${index + 1}'),
                                 )),
                                 DataCell(Text(record.player?.name ?? '-')),
                                 DataCell(Text(formatDuration(record.score))),

@@ -21,11 +21,11 @@ class MineGameGrid extends StatelessWidget {
         if (state is GameWin &&
             context.read<DifficultyBloc>().state.difficulty.option !=
                 DifficultyOption.custom) {
-          String name = await AppPopUp.askName(context);
           DifficultyBloc difficultyBloc =
               BlocProvider.of<DifficultyBloc>(context);
           WinRecordBloc winRecordBloc = BlocProvider.of<WinRecordBloc>(context);
           TimerBloc timerBloc = BlocProvider.of<TimerBloc>(context);
+          String name = await AppPopUp.askName(context);
           winRecordBloc.add(
             WinRecordAdd(
                 name: name,
