@@ -10,4 +10,4 @@ Traditional Minesweep Game [Web](https://hk-minesweeper.web.app/).
 
 ## Screenshot
 
-![minesweeper.png](https://github.com/jasontcs/minesweeper/blob/master/minesweeper.png =x60)
+<img src="https://github.com/jasontcs/minesweeper/blob/master/minesweeper.png" width="320">
